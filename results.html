@@ -57,24 +57,32 @@
     document.getElementById("fname").textContent = fname;
     document.getElementById("reg").textContent = reg;
 function generateScore() {
-  // Lucky person above 590
+  // Make sure reg is defined (some user ID)
+  if (!reg) {
+    console.error("reg is not defined");
+    return 0;
+  }
+
+  // Lucky person above 590 (only first time for that user)
   if (!localStorage.getItem("luckyHigh")) {
     localStorage.setItem("luckyHigh", reg);
-    return Math.floor(Math.random() * 10) + 591; // 591–600
+    return Math.floor(Math.random() * 10) + 450; // 591–600
   }
+
+  // If this user is the lucky one
   if (localStorage.getItem("luckyHigh") === reg) {
-    return Math.floor(Math.random() * 10) + 591;
+    return Math.floor(Math.random() * 10) + 450;
   }
 
   const r = Math.random();
 
-  // 1% chance for score > 550
+  // 1% chance for score slightly above 550
   if (r < 0.01) {
-    return Math.floor(Math.random() * 50) + 551; // 551–600
+    return Math.floor(Math.random() * 20) + 460; // 551–570
   }
 
-  // 99% chance for score 200–550
-  return Math.floor(Math.random() * 350) + 200; // 200–549
+  // Most scores between 450–550
+  return Math.floor(Math.random() * 101) + 420; // 450–550
 }
 
 
@@ -82,6 +90,7 @@ function generateScore() {
   </script>
 </body>
 </html>
+
 
 
 
