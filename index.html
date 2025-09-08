@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethiopian Grade 12 Matric Result</title>
+  <style>
+   
+    body {margin:0; font-family: Arial, sans-serif; background:#f4f6fa;}
+    header {background:#0d6efd; color:#fff; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;}
+    header h1 {margin:0; font-size:18px;}
+    nav a {color:#fff; margin-left:16px; text-decoration:none; font-size:14px;}
+    nav a:hover {text-decoration:underline;}
+    .container {display:flex; justify-content:center; margin-top:40px;}
+    .card {background:#fff; border:1px solid #ddd; border-radius:6px; width:400px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+    .card-header {background:#0d6efd; color:#fff; padding:12px; font-weight:bold; border-top-left-radius:6px; border-top-right-radius:6px;}
+    .card-body {padding:20px;}
+    label {font-size:14px; color:#333; display:block; margin-bottom:4px;}
+    input[type="text"] {width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; margin-bottom:12px;}
+    .btn {padding:10px 16px; border:none; border-radius:4px; cursor:pointer; font-weight:600;}
+    .btn-primary {background:#0d6efd; color:#fff;}
+    .btn-success {background:#198754; color:#fff;}
+    footer {margin-top:40px; text-align:center; font-size:13px; color:#666;}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Ethiopian Grade 12 Matric Result</h1>
+     
+    <nav>
+      <a href="#" id="complaint">Compliant</a>
+      <a href="#">SMS</a>
+      <a href="#">Telegram</a>
+    </nav>
+  </header>
+ <img src="2.png" width="1363" height="150">
+  <div class="container">
+    <div class="card">
+      <div class="card-header">Check Result</div>
+      <div class="card-body">
+        <form id="resultForm">
+          <label for="reg">Registration Number</label>
+          <input type="text" id="reg" required>
+
+          <label for="fname">First Name</label>
+          <input type="text" id="fname" required>
+
+          <div style="display:flex; gap:10px; margin-top:12px;">
+            <button class="btn btn-primary" type="submit">Check Result</button>
+            <button class="btn btn-success" type="button" id="complaintBtn">Compliant</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Ethiopian Grade 12 Matric Result
+  </footer>
+
+  <script>
+    // Complaint buttons (both nav + form)
+    document.getElementById('complaint').addEventListener('click', (e)=>{
+      e.preventDefault();
+      alert("Complaints are received after the New Year.");
+    });
+    document.getElementById('complaintBtn').addEventListener('click', ()=>{
+      alert("Complaints are received after the New Year.");
+    });
+
+    // Redirect to payment page
+    document.getElementById('resultForm').addEventListener('submit',(e)=>{
+      e.preventDefault();
+      const reg = document.getElementById('reg').value.trim();
+      const fname = document.getElementById('fname').value.trim();
+      if(reg && fname){
+        window.location.href = `payment.html?reg=${encodeURIComponent(reg)}&fname=${encodeURIComponent(fname)}`;
+      }
+    });
+  </script>
+</body>
+</html>

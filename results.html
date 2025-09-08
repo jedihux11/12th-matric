@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Result</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      color: #fff;
+    }
+    .card {
+      background: #fff;
+      color: #333;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      text-align: center;
+      width: 400px;
+      animation: fadeIn 1.2s ease;
+    }
+    h2 {
+      color: #2575fc;
+      margin-bottom: 10px;
+    }
+    .score {
+      font-size: 50px;
+      font-weight: bold;
+      margin: 20px 0;
+      color: #6a11cb;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-30px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Result for <span id="fname"></span></h2>
+    <p>Registration: <b id="reg"></b></p>
+    <div class="score" id="score"></div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const fname = urlParams.get("fname");
+    const reg = urlParams.get("reg");
+
+    document.getElementById("fname").textContent = fname;
+    document.getElementById("reg").textContent = reg;
+
+    function generateScore() {
+      // Lucky person above 590
+      if (!localStorage.getItem("luckyHigh")) {
+        localStorage.setItem("luckyHigh", reg);
+        return Math.floor(Math.random() * 10) + 591; // 591–600
+      }
+      if (localStorage.getItem("luckyHigh") === reg) {
+        return Math.floor(Math.random() * 10) + 591;
+      }
+
+      const r = Math.random();
+      if (r < 0.6) {
+        return Math.floor(Math.random() * 60) + 270; // most around 300
+      } else if (r < 0.8) {
+        return Math.floor(Math.random() * 40) + 250; // some just above 250
+      } else if (r < 0.95) {
+        return Math.floor(Math.random() * 100) + 400; // some 400–500
+      } else {
+        return Math.floor(Math.random() * 100) + 300; // fallback mid
+      }
+    }
+
+    document.getElementById("score").textContent = generateScore();
+  </script>
+</body>
+</html>
