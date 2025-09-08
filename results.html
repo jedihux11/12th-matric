@@ -56,32 +56,25 @@
 
     document.getElementById("fname").textContent = fname;
     document.getElementById("reg").textContent = reg;
-
-  function generateScore() {
+function generateScore() {
   // Lucky person above 590
   if (!localStorage.getItem("luckyHigh")) {
     localStorage.setItem("luckyHigh", reg);
     return Math.floor(Math.random() * 10) + 591; // 591–600
   }
   if (localStorage.getItem("luckyHigh") === reg) {
-    // Return a high score for the same lucky person again
-    return Math.floor(Math.random() * 10) + 400;
+    return Math.floor(Math.random() * 10) + 591;
   }
 
   const r = Math.random();
-  
-  // Very small chance (1%) of score > 550
+
+  // 1% chance for score > 550
   if (r < 0.01) {
-    return Math.floor(Math.random() * 50) + 400; // 551–600
-  } 
-  // Most scores below 550
-  else if (r < 0.6) {
-    return Math.floor(Math.random() * 100) + 250; // 250–349
-  } else if (r < 0.85) {
-    return Math.floor(Math.random() * 100) + 350; // 350–449
-  } else {
-    return Math.floor(Math.random() * 100) + 450; // 450–549
+    return Math.floor(Math.random() * 50) + 551; // 551–600
   }
+
+  // 99% chance for score 200–550
+  return Math.floor(Math.random() * 350) + 200; // 200–549
 }
 
 
@@ -89,6 +82,7 @@
   </script>
 </body>
 </html>
+
 
 
 
