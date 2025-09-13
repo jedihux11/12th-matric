@@ -1,82 +1,712 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ethiopian Grade 12 Matric Result</title>
-  <style>
-   
-    body {margin:0; font-family: Arial, sans-serif; background:#f4f6fa;}
-    header {background:#0d6efd; color:#fff; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;}
-    header h1 {margin:0; font-size:18px;}
-    nav a {color:#fff; margin-left:16px; text-decoration:none; font-size:14px;}
-    nav a:hover {text-decoration:underline;}
-    .container {display:flex; justify-content:center; margin-top:40px;}
-    .card {background:#fff; border:1px solid #ddd; border-radius:6px; width:400px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
-    .card-header {background:#0d6efd; color:#fff; padding:12px; font-weight:bold; border-top-left-radius:6px; border-top-right-radius:6px;}
-    .card-body {padding:20px;}
-    label {font-size:14px; color:#333; display:block; margin-bottom:4px;}
-    input[type="text"] {width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; margin-bottom:12px;}
-    .btn {padding:10px 16px; border:none; border-radius:4px; cursor:pointer; font-weight:600;}
-    .btn-primary {background:#0d6efd; color:#fff;}
-    .btn-success {background:#198754; color:#fff;}
-    footer {margin-top:40px; text-align:center; font-size:13px; color:#666;}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Trading Journal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #121826;
+            --darker-bg: #0a0e17;
+            --card-bg: #1a2439;
+            --accent: #4a7bff;
+            --green: #4caf50;
+            --red: #f44336;
+            --blue: #2196f3;
+            --gray: #9e9e9e;
+            --text: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--dark-bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-image: linear-gradient(to bottom right, #0d111f, #1a2439);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #4a7bff, #8bc34a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .setup-container, .month-container, .day-modal {
+            background-color: var(--darker-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            margin-bottom: 30px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .setup-container {
+            max-width: 600px;
+            margin: 50px auto;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #b0b0b0;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: var(--card-bg);
+            color: var(--text);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(74, 123, 255, 0.3);
+        }
+
+        button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #3a6bf0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .month-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .month-btn {
+            background-color: var(--card-bg);
+            padding: 15px 25px;
+            flex: 1;
+            max-width: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .month-btn:hover {
+            transform: translateY(-5px);
+        }
+
+        .month-btn.active {
+            background-color: var(--accent);
+            box-shadow: 0 5px 15px rgba(74, 123, 255, 0.4);
+        }
+
+        .month-btn i {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+        }
+
+        .day-box {
+            aspect-ratio: 1/1;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .day-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .day-box.gray { background-color: #2d3748; }
+        .day-box.green { background-color: var(--green); }
+        .day-box.red { background-color: var(--red); }
+        .day-box.blue { background-color: var(--blue); }
+
+        .day-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .day-profit {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .day-modal {
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            color: var(--text);
+            font-size: 24px;
+            padding: 5px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .trade-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .trade-info div {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-box {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            flex: 1;
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-box h3 {
+            margin-bottom: 10px;
+            color: #b0b0b0;
+            font-size: 1rem;
+        }
+
+        .stat-box .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .positive { color: var(--green); }
+        .negative { color: var(--red); }
+        .neutral { color: var(--blue); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .calendar {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .month-selector {
+                flex-wrap: wrap;
+            }
+            
+            .month-btn {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calendar {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .stat-box {
+                min-width: 140px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Ethiopian Grade 12 Matric Result</h1>
-     
-    <nav>
-      <a href="#" id="complaint">Compliant</a>
-      <a href="#">SMS</a>
-      <a href="#">Telegram</a>
-    </nav>
-  </header>
- <img src="2.png" width="1363" height="150">
-  <div class="container">
-    <div class="card">
-      <div class="card-header">Check Result</div>
-      <div class="card-body">
-        <form id="resultForm">
-          <label for="reg">Registration Number</label>
-          <input type="text" id="reg" required>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-chart-line"></i> Personal Trading Journal</h1>
+            <p>Track your trades and performance</p>
+        </header>
 
-          <label for="fname">First Name</label>
-          <input type="text" id="fname" required>
+        <!-- Initial Setup Section -->
+        <div class="setup-container" id="setup-container">
+            <h2><i class="fas fa-cog"></i> Setup Your Journal</h2>
+            <div class="form-group">
+                <label for="account-type"><i class="fas fa-wallet"></i> Account Type</label>
+                <select id="account-type">
+                    <option value="funded">Funded Account</option>
+                    <option value="real">Real Account</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="account-size"><i class="fas fa-dollar-sign"></i> Account Size ($)</label>
+                <input type="number" id="account-size" placeholder="Enter your capital">
+            </div>
+            <div class="form-group">
+                <label for="tracking-period"><i class="fas fa-calendar"></i> Tracking Period (months)</label>
+                <input type="number" id="tracking-period" value="3" min="1" max="12">
+            </div>
+            <button id="save-setup"><i class="fas fa-play"></i> Start Journal</button>
+        </div>
 
-          <div style="display:flex; gap:10px; margin-top:12px;">
-            <button class="btn btn-primary" type="submit">Check Result</button>
-            <button class="btn btn-success" type="button" id="complaintBtn">Compliant</button>
-          </div>
-        </form>
-      </div>
+        <!-- Main Journal Interface (Initially Hidden) -->
+        <div id="journal-interface" class="hidden">
+            <div class="stats-container">
+                <div class="stat-box">
+                    <h3><i class="fas fa-money-bill-wave"></i> Account Size</h3>
+                    <div class="value" id="stat-account-size">$0</div>
+                </div>
+                <div class="stat-box">
+                    <h3><i class="fas fa-chart-pie"></i> Total Profit</h3>
+                    <div class="value positive" id="stat-total-profit">$0</div>
+                </div>
+                <div class="stat-box">
+                    <h3><i class="fas fa-percentage"></i> Win Rate</h3>
+                    <div class="value" id="stat-win-rate">0%</div>
+                </div>
+            </div>
+
+            <div class="month-selector">
+                <button class="month-btn" data-month="0">
+                    <i class="fas fa-leaf"></i>
+                    <span>September</span>
+                </button>
+                <button class="month-btn" data-month="1">
+                    <i class="fas fa-tree"></i>
+                    <span>October</span>
+                </button>
+                <button class="month-btn" data-month="2">
+                    <i class="fas fa-wind"></i>
+                    <span>November</span>
+                </button>
+            </div>
+
+            <div class="month-container">
+                <h2 id="current-month">September</h2>
+                <div class="calendar" id="calendar">
+                    <!-- Calendar days will be generated here -->
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <footer>
-    Ethiopian Grade 12 Matric Result
-  </footer>
+    <!-- Day Modal -->
+    <div class="modal" id="day-modal">
+        <div class="day-modal">
+            <button class="close-btn" id="close-modal">&times;</button>
+            <h2 id="modal-date"><i class="fas fa-calendar-day"></i> September 1</h2>
+            
+            <div class="form-group">
+                <label for="trade-pair"><i class="fas fa-exchange-alt"></i> Currency Pair</label>
+                <select id="trade-pair">
+                    <option value="">Select a pair</option>
+                    <option value="EUR/USD">EUR/USD</option>
+                    <option value="GBP/USD">GBP/USD</option>
+                    <option value="GOLD">XAU/USD</option>
+                    <option value="SILVER">XAG/USD</option>
+                    <option value="DOLLAR">DXY</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="risk-reward"><i class="fas fa-balance-scale"></i> Risk to Reward Ratio</label>
+                <input type="text" id="risk-reward" placeholder="e.g., 1:2">
+            </div>
+            
+            <div class="form-group">
+                <label for="trade-result"><i class="fas fa-trophy"></i> Trade Result</label>
+                <select id="trade-result">
+                    <option value="win">Win</option>
+                    <option value="loss">Loss</option>
+                    <option value="breakeven">Breakeven</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="profit-loss"><i class="fas fa-coins"></i> Profit/Loss Amount ($)</label>
+                <input type="number" id="profit-loss" placeholder="Enter amount">
+            </div>
+            
+            <button id="save-trade"><i class="fas fa-save"></i> Save Trade</button>
+            
+            <div class="trade-info" id="trade-info">
+                <!-- Trade details will appear here -->
+            </div>
+        </div>
+    </div>
 
-  <script>
-    // Complaint buttons (both nav + form)
-    document.getElementById('complaint').addEventListener('click', (e)=>{
-      e.preventDefault();
-      alert("Complaints are received after the New Year.");
-    });
-    document.getElementById('complaintBtn').addEventListener('click', ()=>{
-      alert("Complaints are received after the New Year.");
-    });
-
-    // Redirect to payment page
-    document.getElementById('resultForm').addEventListener('submit',(e)=>{
-      e.preventDefault();
-      const reg = document.getElementById('reg').value.trim();
-      const fname = document.getElementById('fname').value.trim();
-      if(reg && fname){
-        window.location.href = `payment.html?reg=${encodeURIComponent(reg)}&fname=${encodeURIComponent(fname)}`;
-      }
-    });
-  </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const setupContainer = document.getElementById('setup-container');
+            const journalInterface = document.getElementById('journal-interface');
+            const accountType = document.getElementById('account-type');
+            const accountSize = document.getElementById('account-size');
+            const trackingPeriod = document.getElementById('tracking-period');
+            const saveSetupBtn = document.getElementById('save-setup');
+            const monthBtns = document.querySelectorAll('.month-btn');
+            const calendar = document.getElementById('calendar');
+            const currentMonthEl = document.getElementById('current-month');
+            const dayModal = document.getElementById('day-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const modalDateEl = document.getElementById('modal-date');
+            const saveTradeBtn = document.getElementById('save-trade');
+            const tradeInfo = document.getElementById('trade-info');
+            const statAccountSize = document.getElementById('stat-account-size');
+            const statTotalProfit = document.getElementById('stat-total-profit');
+            const statWinRate = document.getElementById('stat-win-rate');
+            
+            // State variables
+            let currentMonth = 0; // 0: September, 1: October, 2: November
+            let currentDay = null;
+            let journalData = {
+                setup: null,
+                trades: {}
+            };
+            
+            // Month names
+            const months = ['September', 'October', 'November'];
+            const daysInMonth = [30, 31, 30]; // Sept, Oct, Nov
+            
+            // Initialize the application
+            function init() {
+                // Load saved data from localStorage
+                const savedData = localStorage.getItem('tradingJournal');
+                if (savedData) {
+                    journalData = JSON.parse(savedData);
+                    
+                    // If setup is already done, show the journal interface
+                    if (journalData.setup) {
+                        setupContainer.classList.add('hidden');
+                        journalInterface.classList.remove('hidden');
+                        
+                        // Update the setup values in the form
+                        accountType.value = journalData.setup.accountType;
+                        accountSize.value = journalData.setup.accountSize;
+                        trackingPeriod.value = journalData.setup.trackingPeriod;
+                        
+                        // Update stats
+                        updateStats();
+                        
+                        // Render the calendar for the current month
+                        renderCalendar(currentMonth);
+                    }
+                }
+            }
+            
+            // Save setup data
+            saveSetupBtn.addEventListener('click', function() {
+                if (!accountSize.value) {
+                    alert('Please enter your account size');
+                    return;
+                }
+                
+                journalData.setup = {
+                    accountType: accountType.value,
+                    accountSize: accountSize.value,
+                    trackingPeriod: trackingPeriod.value
+                };
+                
+                // Save to localStorage
+                localStorage.setItem('tradingJournal', JSON.stringify(journalData));
+                
+                // Show journal interface
+                setupContainer.classList.add('hidden');
+                journalInterface.classList.remove('hidden');
+                
+                // Update stats
+                updateStats();
+                
+                // Render calendar
+                renderCalendar(currentMonth);
+            });
+            
+            // Month selection
+            monthBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const monthIndex = parseInt(this.dataset.month);
+                    currentMonth = monthIndex;
+                    
+                    // Update active button
+                    monthBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update calendar
+                    renderCalendar(monthIndex);
+                });
+            });
+            
+            // Render calendar for a specific month
+            function renderCalendar(monthIndex) {
+                currentMonthEl.textContent = months[monthIndex];
+                calendar.innerHTML = '';
+                
+                const days = daysInMonth[monthIndex];
+                
+                for (let i = 1; i <= days; i++) {
+                    const dayBox = document.createElement('div');
+                    dayBox.className = 'day-box gray';
+                    dayBox.dataset.day = i;
+                    dayBox.dataset.month = monthIndex;
+                    
+                    const dayNumber = document.createElement('div');
+                    dayNumber.className = 'day-number';
+                    dayNumber.textContent = i;
+                    
+                    const dayProfit = document.createElement('div');
+                    dayProfit.className = 'day-profit';
+                    
+                    // Check if we have data for this day
+                    const dateKey = `${monthIndex}-${i}`;
+                    if (journalData.trades[dateKey]) {
+                        const trade = journalData.trades[dateKey];
+                        dayProfit.textContent = `${trade.profitLoss >= 0 ? '+' : ''}${trade.profitLoss}$`;
+                        
+                        // Set box color based on result
+                        if (trade.result === 'win') {
+                            dayBox.className = 'day-box green';
+                        } else if (trade.result === 'loss') {
+                            dayBox.className = 'day-box red';
+                        } else {
+                            dayBox.className = 'day-box blue'; // Changed from gray to blue for breakeven
+                        }
+                    } else {
+                        dayProfit.textContent = 'No trade';
+                    }
+                    
+                    dayBox.appendChild(dayNumber);
+                    dayBox.appendChild(dayProfit);
+                    
+                    // Add click event to open modal
+                    dayBox.addEventListener('click', function() {
+                        const day = this.dataset.day;
+                        const month = this.dataset.month;
+                        openDayModal(parseInt(month), parseInt(day));
+                    });
+                    
+                    calendar.appendChild(dayBox);
+                }
+            }
+            
+            // Update statistics
+            function updateStats() {
+                if (journalData.setup) {
+                    statAccountSize.textContent = `$${journalData.setup.accountSize}`;
+                }
+                
+                let totalProfit = 0;
+                let winCount = 0;
+                let totalTrades = 0;
+                
+                for (const dateKey in journalData.trades) {
+                    const trade = journalData.trades[dateKey];
+                    totalProfit += parseFloat(trade.profitLoss);
+                    totalTrades++;
+                    
+                    if (trade.result === 'win') {
+                        winCount++;
+                    }
+                }
+                
+                statTotalProfit.textContent = `${totalProfit >= 0 ? '+' : ''}${totalProfit.toFixed(2)}$`;
+                statTotalProfit.className = `value ${totalProfit > 0 ? 'positive' : totalProfit < 0 ? 'negative' : 'neutral'}`;
+                
+                const winRate = totalTrades > 0 ? (winCount / totalTrades) * 100 : 0;
+                statWinRate.textContent = `${winRate.toFixed(1)}%`;
+            }
+            
+            // Open modal for a specific day
+            function openDayModal(month, day) {
+                currentDay = { month, day };
+                modalDateEl.textContent = `${months[month]} ${day}`;
+                
+                // Check if we have existing data for this day
+                const dateKey = `${month}-${day}`;
+                if (journalData.trades[dateKey]) {
+                    const trade = journalData.trades[dateKey];
+                    
+                    // Fill the form with existing data
+                    document.getElementById('trade-pair').value = trade.pair;
+                    document.getElementById('risk-reward').value = trade.riskReward;
+                    document.getElementById('trade-result').value = trade.result;
+                    document.getElementById('profit-loss').value = trade.profitLoss;
+                    
+                    // Show trade info
+                    showTradeInfo(trade);
+                } else {
+                    // Reset the form
+                    document.getElementById('trade-pair').value = '';
+                    document.getElementById('risk-reward').value = '';
+                    document.getElementById('trade-result').value = 'win';
+                    document.getElementById('profit-loss').value = '';
+                    
+                    // Clear trade info
+                    tradeInfo.innerHTML = '';
+                }
+                
+                // Show the modal
+                dayModal.style.display = 'flex';
+            }
+            
+            // Close modal
+            closeModalBtn.addEventListener('click', function() {
+                dayModal.style.display = 'none';
+            });
+            
+            // Save trade data
+            saveTradeBtn.addEventListener('click', function() {
+                const pair = document.getElementById('trade-pair').value;
+                const riskReward = document.getElementById('risk-reward').value;
+                const result = document.getElementById('trade-result').value;
+                const profitLoss = document.getElementById('profit-loss').value;
+                
+                if (!pair || !riskReward || !profitLoss) {
+                    alert('Please fill all fields');
+                    return;
+                }
+                
+                const tradeData = {
+                    pair,
+                    riskReward,
+                    result,
+                    profitLoss: parseFloat(profitLoss)
+                };
+                
+                // Save to journal data
+                const dateKey = `${currentDay.month}-${currentDay.day}`;
+                journalData.trades[dateKey] = tradeData;
+                
+                // Save to localStorage
+                localStorage.setItem('tradingJournal', JSON.stringify(journalData));
+                
+                // Update the UI
+                showTradeInfo(tradeData);
+                
+                // Update the calendar box
+                renderCalendar(currentMonth);
+                
+                // Update stats
+                updateStats();
+            });
+            
+            // Show trade information
+            function showTradeInfo(trade) {
+                tradeInfo.innerHTML = `
+                    <h3><i class="fas fa-info-circle"></i> Trade Details</h3>
+                    <div><strong>Pair:</strong> ${trade.pair}</div>
+                    <div><strong>Risk/Reward:</strong> ${trade.riskReward}</div>
+                    <div><strong>Result:</strong> ${trade.result}</div>
+                    <div><strong>P/L:</strong> <span style="color: ${trade.profitLoss > 0 ? 'var(--green)' : trade.profitLoss < 0 ? 'var(--red)' : 'var(--blue)'}">${trade.profitLoss >= 0 ? '+' : ''}${trade.profitLoss}$</span></div>
+                `;
+            }
+            
+            // Initialize the app
+            init();
+            
+            // Set the first month button as active
+            if (monthBtns.length > 0) {
+                monthBtns[0].classList.add('active');
+            }
+        });
+    </script>
 </body>
 </html>
